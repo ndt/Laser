@@ -35,12 +35,16 @@ class Mirror {
         _end = new PVector(_center.x + Reflection.cos(_angle) * _length, _center.y - Reflection.sin(_angle) * _length);
         _start = new PVector(_center.x - Reflection.cos(_angle) * _length, _center.y + Reflection.sin(_angle) * _length);
     }
+    
+    PVector getDirection() {
+        return PVector.sub(_end, _start);
+    }
 
     PVector getEnd() {
         return new PVector(_center.x + Reflection.cos(_angle) * _length, _center.y - Reflection.sin(_angle) * _length);
     }
 
-    PVector getOrigin() {
+    PVector getStart() {
         return new PVector(_center.x - Reflection.cos(_angle) * _length, _center.y + Reflection.sin(_angle) * _length);
     }
 

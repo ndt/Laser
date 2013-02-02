@@ -30,12 +30,16 @@ class Ray {
     float getAngle() {
         return _angle;
     }
+    
+    PVector getDirection() {
+        return PVector.sub(_end, _start);
+    }
 
     PVector getEnd() {
         return _end;
     }
 
-    PVector getOrigin() {
+    PVector getStart() {
         return _start;
     }
 

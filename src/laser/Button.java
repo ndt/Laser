@@ -9,12 +9,12 @@ package laser;
  * @author NIESWANDT
  */
 class Button {
-    int _x;
-    int _y;
-    int _r;
+    float _x;
+    float _y;
+    float _r;
     private final Reflection ctx;
 
-    Button(int x, int y, int r, final Reflection ctx) {
+    Button(float x, float y, float r, final Reflection ctx) {
         this.ctx = ctx;
         _x = x;
         _y = y;
