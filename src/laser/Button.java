@@ -9,15 +9,14 @@ package laser;
  * @author Helge Wiethoff
  * @author Nicolas Nieswandt
  */
-class Button {
+class Button extends Optical {
 
     float _x;
     float _y;
     float _r;
-    private final Reflection _ctx;
 
     Button(float x, float y, float r, final Reflection ctx) {
-        _ctx = ctx;
+        super(ctx);
         _x = x;
         _y = y;
         _r = r;
@@ -27,6 +26,7 @@ class Button {
         return (Reflection.sqrt(Reflection.sq(_x - _ctx.mouseX) + Reflection.sq(_y - _ctx.mouseY))) < _r;
     }
 
+    @Override
     public void draw() {
         _ctx.fill(255);
         _ctx.ellipse(_x, _y, _r * 2, _r * 2);

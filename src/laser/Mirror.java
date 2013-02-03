@@ -11,17 +11,16 @@ import processing.core.PVector;
  * @author Helge Wiethoff
  * @author Nicolas Nieswandt
  */
-class Mirror {
+class Mirror extends Optical {
 
     PVector _center = new PVector();
     PVector _start = new PVector();
     PVector _end = new PVector();
     float _angle;
     float _length = 100;
-    private final Reflection _ctx;
 
     Mirror(float x, float y, float a, final Reflection ctx) {
-        _ctx = ctx;
+        super(ctx);
         _center = new PVector(x, y);
         _angle = Reflection.radians(a);
         _start = PVector.mult(PVector.fromAngle(_angle), _length);
@@ -49,7 +48,8 @@ class Mirror {
         return PVector.add(_center, _start);
     }
 
-    void drawMirror() {
+    @Override
+    public void draw() {
         _ctx.stroke(222);
 
         PVector a = PVector.add(_center, _start);

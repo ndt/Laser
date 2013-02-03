@@ -1,9 +1,9 @@
-package laser;
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+package laser;
+
 import processing.core.*;
 
 /**
@@ -17,6 +17,7 @@ public class Reflection extends PApplet {
     int SCREEN_HIGHT = 500;
     float MAX_LENGTH;
     boolean circleOver = false;
+    ObjectFactory of;
     Laser laser;
     Mirror mirror1;
     Mirror mirror2;
@@ -31,47 +32,50 @@ public class Reflection extends PApplet {
         size(SCREEN_WIDTH, SCREEN_HIGHT);
         MAX_LENGTH = sqrt(sq(SCREEN_WIDTH) + sq(SCREEN_HIGHT));
         background(0);
-        laser = createLaser(80, 0, 100);
-        mirror1 = createMirror(100, 400, -25);
-        mirror2 = createMirror(380, 390, -120);
-        button = createButton(100, 450, 10);
+
+        of = new ObjectFactory(this);
+        laser = of.createLaser(80, 0, 100);
+        mirror1 = of.createMirror(100, 400, -25);
+        mirror2 = of.createMirror(380, 390, -120);
+        button = of.createButton(100, 450, 10);
     }
 
     @Override
     public void draw() {
+        Ray beam1;
+        Ray beam2;
+        Ray beam3;
+
+        PVector r3;
+        PVector r4;
+        
         background(0);
 
-        Ray first = laser.createRay();
-        first.setEnd(detectRayHit(first, mirror1));
+        beam1 = laser.createRay();
+        beam1.setEnd(detectRayHit(beam1, mirror1));
 
-        PVector r3 = calcMirrorDirection(first, mirror1);
-        Ray second = createRay(first.getEnd(), r3);
-        second.setEnd(detectRayHit(second, mirror2));
+        r3 = calcMirrorDirection(beam1, mirror1);
+        beam2 = of.createRay(beam1.getEnd(), r3);
+        beam2.setEnd(detectRayHit(beam2, mirror2));
 
-        PVector r4 = calcMirrorDirection(second, mirror2);
-        Ray third = createRay(second.getEnd(), r4);
+        r4 = calcMirrorDirection(beam2, mirror2);
+        beam3 = of.createRay(beam2.getEnd(), r4);
 
+        // List of optical objects
+        mirror1.draw();
+        mirror2.draw();
+
+        // List of the calculated laser beam polygon
+        beam1.draw();
+        beam2.draw();
+        beam3.draw();
+
+        // List of UI elememnts
         button.draw();
-
-        mirror1.drawMirror();
-        mirror2.drawMirror();
-
-        first.drawRay();
-        second.drawRay();
-        third.drawRay();
     }
 
-    PVector detectRayHit(Ray r, Mirror m) {
-        return getIntersection(r.getStart(), r.getDirection(), m.getStart(), m.getDirection());
-    }
-
-    PVector getIntersection(PVector r1, PVector a1, PVector r2, PVector a2) {
-        if (isOrthogonal(a1, a2)) {
-            return null;
-        }
-        PVector d = PVector.sub(r1, r2); // temp difference vector
-        float lambda1 = (d.x * a2.y - d.y * a2.x) / (a1.y * a2.x - a1.x * a2.y);
-        return new PVector(r1.x + lambda1 * a1.x, r1.y + lambda1 * a1.y);
+    static PVector detectRayHit(Ray r, Mirror m) {
+        return VectorUtil.calcIntersection(r.getStart(), r.getDirection(), m.getStart(), m.getDirection());
     }
 
     @Override
@@ -79,26 +83,6 @@ public class Reflection extends PApplet {
         if (button.isPressed()) {
             mirror1.incAngle();
         }
-    }
-
-    boolean isOrthogonal(PVector v1, PVector v2) {
-        return (PVector.dot(v1, v2) == 0);
-    }
-
-    private Button createButton(float x, float y, float r) {
-        return new Button(x, y, r, this);
-    }
-
-    private Ray createRay(PVector a, PVector b) {
-        return new Ray(a, b, this);
-    }
-
-    private Mirror createMirror(float x, float y, float a) {
-        return new Mirror(x, y, a, this);
-    }
-
-    private Laser createLaser(float x, float y, float a) {
-        return new Laser(x, y, a, this);
     }
 
     private PVector calcMirrorDirection(Ray r, Mirror m) {

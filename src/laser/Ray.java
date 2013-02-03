@@ -11,14 +11,13 @@ import processing.core.PVector;
  * @author Helge Wiethoff
  * @author Nicolas Nieswandt
  */
-class Ray {
+class Ray extends Optical {
 
     PVector _start = new PVector();
     PVector _end = new PVector();
-    private final Reflection _ctx;
 
     Ray(float x, float y, float a, final Reflection ctx) {
-        _ctx = ctx;
+        super(ctx);
         _start = new PVector(x, y);
         float _angle = Reflection.radians(a);
         _end = new PVector(_start.x + Reflection.cos(_angle) * ctx.width * 2, _start.y - Reflection.sin(_angle) * ctx.height * 2);
@@ -29,7 +28,7 @@ class Ray {
     }
 
     Ray(PVector a, PVector b, final Reflection ctx) {
-        this._ctx = ctx;
+        super(ctx);
         _start = a;
         _end = b;
     }
@@ -54,7 +53,8 @@ class Ray {
         _end = e;
     }
 
-    void drawRay() {
+    @Override
+    public void draw() {
         _ctx.stroke(255, 0, 0);
         _ctx.line(_start.x, _start.y, _end.x, _end.y);
     }
