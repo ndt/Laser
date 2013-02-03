@@ -8,29 +8,36 @@ import processing.core.PVector;
 
 /**
  *
- * @author NIESWANDT
+ * @author Helge Wiethoff
+ * @author Nicolas Nieswandt
  */
 class Ray {
+
     PVector _start = new PVector();
     PVector _end = new PVector();
-    float _angle;
-    private final Reflection ctx;
+    private final Reflection _ctx;
 
     Ray(float x, float y, float a, final Reflection ctx) {
-        this.ctx = ctx;
+        _ctx = ctx;
         _start = new PVector(x, y);
-        _angle = Reflection.radians(a);
+        float _angle = Reflection.radians(a);
         _end = new PVector(_start.x + Reflection.cos(_angle) * ctx.width * 2, _start.y - Reflection.sin(_angle) * ctx.height * 2);
     }
-    
+
     Ray(PVector v, float a, final Reflection ctx) {
         this(v.x, v.y, a, ctx);
     }
 
-    float getAngle() {
-        return _angle;
+    Ray(PVector a, PVector b, final Reflection ctx) {
+        this._ctx = ctx;
+        _start = a;
+        _end = b;
     }
-    
+
+    float getAngle() {
+        return getDirection().heading2D();
+    }
+
     PVector getDirection() {
         return PVector.sub(_end, _start);
     }
@@ -48,8 +55,7 @@ class Ray {
     }
 
     void drawRay() {
-        ctx.stroke(255, 0, 0);
-        ctx.line(_start.x, _start.y, _end.x, _end.y);
+        _ctx.stroke(255, 0, 0);
+        _ctx.line(_start.x, _start.y, _end.x, _end.y);
     }
-    
 }

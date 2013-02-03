@@ -8,49 +8,53 @@ import processing.core.PVector;
 
 /**
  *
- * @author NIESWANDT
+ * @author Helge Wiethoff
+ * @author Nicolas Nieswandt
  */
 class Mirror {
+
     PVector _center = new PVector();
     PVector _start = new PVector();
     PVector _end = new PVector();
     float _angle;
     float _length = 100;
-    private final Reflection ctx;
+    private final Reflection _ctx;
 
     Mirror(float x, float y, float a, final Reflection ctx) {
-        this.ctx = ctx;
+        _ctx = ctx;
         _center = new PVector(x, y);
         _angle = Reflection.radians(a);
-        _end = new PVector(_center.x + Reflection.cos(_angle) * _length, _center.y - Reflection.sin(_angle) * _length);
-        _start = new PVector(_center.x - Reflection.cos(_angle) * _length, _center.y + Reflection.sin(_angle) * _length);
+        _start = PVector.mult(PVector.fromAngle(_angle), _length);
+        _end = PVector.mult(PVector.fromAngle(Reflection.PI + _angle), _length);
     }
-    
+
     float getAngle() {
-        return _angle;
+        return getDirection().heading2D();
     }
 
     void incAngle() {
-        _angle = (float) (_angle + 0.01);
-        _end = new PVector(_center.x + Reflection.cos(_angle) * _length, _center.y - Reflection.sin(_angle) * _length);
-        _start = new PVector(_center.x - Reflection.cos(_angle) * _length, _center.y + Reflection.sin(_angle) * _length);
+        _start.rotate(0.05f);
+        _end.rotate(0.05f);
     }
-    
+
     PVector getDirection() {
-        return PVector.sub(_end, _start);
+        return _start.normalize(null);
     }
 
     PVector getEnd() {
-        return new PVector(_center.x + Reflection.cos(_angle) * _length, _center.y - Reflection.sin(_angle) * _length);
+        return PVector.add(_center, _end);
     }
 
     PVector getStart() {
-        return new PVector(_center.x - Reflection.cos(_angle) * _length, _center.y + Reflection.sin(_angle) * _length);
+        return PVector.add(_center, _start);
     }
 
     void drawMirror() {
-        ctx.stroke(222);
-        ctx.line(_start.x, _start.y, _end.x, _end.y);
+        _ctx.stroke(222);
+
+        PVector a = PVector.add(_center, _start);
+        PVector b = PVector.add(_center, _end);
+
+        _ctx.line(a.x, a.y, b.x, b.y);
     }
-    
 }

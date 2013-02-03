@@ -12,17 +12,19 @@ import processing.core.PVector;
  */
 public class Laser {
 
-    PVector _pos = new PVector();
+    PVector _origin;
     float _angle;
-    private final Reflection ctx;
+    private final Reflection _ctx;
 
-    Laser(float x, float y, float a, final Reflection ctx) {
-        this.ctx = ctx;
-        _pos = new PVector(x, y);
-        _angle = Reflection.radians(a);
+    Laser(float x, float y, float a, Reflection ctx) {
+        _ctx = ctx;
+        _angle = a;
+        _origin = new PVector(x, y);
     }
-    
-    public PVector getEnd() {
-        return _pos;
+
+    Ray createRay() {
+        PVector a = _origin;
+        PVector b = new PVector(a.x + Reflection.cos(_angle) * _ctx.width * 2, a.y - Reflection.sin(_angle) * _ctx.height * 2);
+        return new Ray(a, b, _ctx);
     }
 }
