@@ -11,10 +11,17 @@ package laser;
 public abstract class Optical {
     protected final Reflection _ctx;
     
+    /**
+     * 
+     * @param ctx 
+     */
     Optical(Reflection ctx) {
         _ctx = ctx;
     }
 
+    /**
+     * 
+     */
     public abstract void draw();
     
 }

@@ -1,6 +1,7 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * GPL
+ * 
+ * Inspired by Helge Wiethoff
  */
 package laser;
 
@@ -8,7 +9,6 @@ import processing.core.*;
 
 /**
  *
- * @author Helge Wiethoff
  * @author Nicolas Nieswandt
  */
 public class Reflection extends PApplet {
@@ -16,12 +16,14 @@ public class Reflection extends PApplet {
     int SCREEN_WIDTH = 500;
     int SCREEN_HIGHT = 500;
     float MAX_LENGTH;
-    boolean circleOver = false;
+    
+    // Optical Objects
     ObjectFactory of;
     Laser laser;
     Mirror mirror1;
     Mirror mirror2;
-    float angle = -40;
+
+    // UI
     Button button;
 
     /**
@@ -40,6 +42,9 @@ public class Reflection extends PApplet {
         button = of.createButton(100, 450, 10);
     }
 
+    /**
+     * 
+     */
     @Override
     public void draw() {
         Ray beam1;
@@ -74,10 +79,19 @@ public class Reflection extends PApplet {
         button.draw();
     }
 
+    /**
+     * 
+     * @param r
+     * @param m
+     * @return 
+     */
     static PVector detectRayHit(Ray r, Mirror m) {
         return VectorUtil.calcIntersection(r.getStart(), r.getDirection(), m.getStart(), m.getDirection());
     }
 
+    /**
+     * 
+     */
     @Override
     public void mousePressed() {
         if (button.isPressed()) {
@@ -85,6 +99,12 @@ public class Reflection extends PApplet {
         }
     }
 
+    /**
+     * 
+     * @param r
+     * @param m
+     * @return 
+     */
     private PVector calcMirrorDirection(Ray r, Mirror m) {
         float beta1 = r.getDirection().heading2D();
         float betaM = m.getDirection().heading2D();
