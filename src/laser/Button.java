@@ -30,14 +30,14 @@ class Button extends Optical {
 
     /**
      * 
-     * @return 
+     * @return Returns true if button is pressed.
      */
     public boolean isPressed() {
         return (Reflection.sqrt(Reflection.sq(_x - _ctx.mouseX) + Reflection.sq(_y - _ctx.mouseY))) < _r;
     }
 
     /**
-     * 
+     * Draws the button shape.
      */
     @Override
     public void draw() {

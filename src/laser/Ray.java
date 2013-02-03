@@ -12,91 +12,95 @@ import processing.core.PVector;
  */
 class Ray extends Optical {
 
-    PVector _start = new PVector();
-    PVector _end = new PVector();
+    /**
+     *
+     */
+    PVector _a = new PVector();
+    PVector _b = new PVector();
 
     /**
-     * 
+     *
      * @param x
      * @param y
-     * @param a
-     * @param ctx 
+     * @param theta
+     * @param ctx
      */
-    Ray(float x, float y, float a, final Reflection ctx) {
+    Ray(float x, float y, float theta, final Reflection ctx) {
         super(ctx);
-        _start = new PVector(x, y);
-        float _angle = Reflection.radians(a);
-        _end = new PVector(_start.x + Reflection.cos(_angle) * ctx.width * 2, _start.y - Reflection.sin(_angle) * ctx.height * 2);
+        _a = new PVector(x, y);
+        _b = new PVector(
+                _a.x + (float) Math.cos(Math.toRadians(theta)) * ctx.width * 2,
+                _a.y - (float) Math.sin(Math.toRadians(theta)) * ctx.height * 2);
     }
 
     /**
-     * 
+     *
      * @param v
-     * @param a
-     * @param ctx 
+     * @param theta
+     * @param ctx
      */
-    Ray(PVector v, float a, final Reflection ctx) {
-        this(v.x, v.y, a, ctx);
+    Ray(PVector v, float theta, final Reflection ctx) {
+        this(v.x, v.y, theta, ctx);
     }
 
     /**
-     * 
+     *
      * @param a
      * @param b
-     * @param ctx 
+     * @param ctx
      */
     Ray(PVector a, PVector b, final Reflection ctx) {
         super(ctx);
-        _start = a;
-        _end = b;
+        _a = a;
+        _b = b;
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     float getAngle() {
         return getDirection().heading2D();
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     PVector getDirection() {
-        return PVector.sub(_end, _start);
+        return PVector.sub(_b, _a);
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     PVector getEnd() {
-        return _end;
+        return _b;
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     PVector getStart() {
-        return _start;
+        return _a;
     }
 
     /**
-     * 
-     * @param e 
+     *
+     * @param e
      */
     void setEnd(PVector e) {
-        _end = e;
+        _b = e;
     }
 
     /**
-     * 
+     *
      */
     @Override
     public void draw() {
         _ctx.stroke(255, 0, 0);
-        _ctx.line(_start.x, _start.y, _end.x, _end.y);
+        _ctx.line(_a.x, _a.y, _b.x, _b.y);
     }
 }

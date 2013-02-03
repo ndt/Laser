@@ -34,7 +34,9 @@ public class Laser extends Optical {
      */
     Ray createRay() {
         PVector a = _origin;
-        PVector b = new PVector(a.x + (float) Math.cos(_angle) * _ctx.width * 2, a.y - (float) Math.sin(_angle) * _ctx.height * 2);
+        PVector b = new PVector(
+                a.x + (float) Math.cos(Math.toRadians(_angle)) * _ctx.width * 2,
+                a.y - (float) Math.sin(Math.toRadians(_angle)) * _ctx.height * 2);
         return new Ray(a, b, _ctx);
     }
 

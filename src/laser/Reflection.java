@@ -106,13 +106,10 @@ public class Reflection extends PApplet {
      * @return 
      */
     private PVector calcMirrorDirection(Ray r, Mirror m) {
-        float beta1 = r.getDirection().heading2D();
-        float betaM = m.getDirection().heading2D();
+        float beta1 = r.getAngle();
+        float betaM = m.getAngle();
         float beta2 = 2 * betaM - beta1;
         PVector a2 = PVector.fromAngle(beta2);
-        text(degrees(beta1), 10, 10);
-        text(degrees(betaM), 10, 20);
-        text(degrees(beta2), 10, 30);
         PVector r3 = PVector.add(r.getEnd(), PVector.mult(a2, MAX_LENGTH));
         return r3;
     }
