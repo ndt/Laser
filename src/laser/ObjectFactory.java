@@ -64,4 +64,8 @@ public class ObjectFactory {
     Button createButton(float x, float y, float r) {
         return new Button(x, y, r, _ctx);
     }
+    
+    Vector createVector(float x, float y) {
+        return new Vector(x, y, _ctx);
+    }
 }

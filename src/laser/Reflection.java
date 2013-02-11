@@ -13,8 +13,8 @@ import processing.core.*;
  */
 public class Reflection extends PApplet {
 
-    int SCREEN_WIDTH = 500;
-    int SCREEN_HIGHT = 500;
+    int SCREEN_WIDTH = 1000;
+    int SCREEN_HIGHT = 800;
     float MAX_LENGTH;
     
     // Optical Objects
@@ -34,6 +34,7 @@ public class Reflection extends PApplet {
         size(SCREEN_WIDTH, SCREEN_HIGHT);
         MAX_LENGTH = sqrt(sq(SCREEN_WIDTH) + sq(SCREEN_HIGHT));
         background(0);
+        strokeWeight(2);
 
         of = new ObjectFactory(this);
         laser = of.createLaser(80, 0, 100);
@@ -77,6 +78,14 @@ public class Reflection extends PApplet {
 
         // List of UI elememnts
         button.draw();
+        
+        PVector n = r3.get();
+        n.normalize();
+        n.mult(30);
+        Vector v1 = of.createVector(n.x,n.y);
+        v1.drawAt(SCREEN_WIDTH/2,SCREEN_HIGHT/2);
+        
+        
     }
 
     /**

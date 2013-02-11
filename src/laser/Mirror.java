@@ -38,7 +38,7 @@ class Mirror extends Optical {
      * @return 
      */
     float getAngle() {
-        return getDirection().heading2D();
+        return getDirection().heading();
     }
 
     /**
